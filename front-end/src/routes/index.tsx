@@ -1,24 +1,21 @@
 import React from 'react';
-
 import { Switch } from 'react-router-dom';
-
-import Route from './Route';
-
-import SignIn from '../pages/SignIn';
-import SignUp from '../pages/SignUp';
-
-import ForgotPassword from '../pages/ForgotPassword';
-import ResetPassword from '../pages/ResetPassword';
-
+import Appointments from '../pages/Appointments';
 import Dashboard from '../pages/Dashboard';
+import ForgotPassword from '../pages/ForgotPassword';
+import Home from '../pages/Home';
+import Profile from '../pages/Profile';
 import Providers from '../pages/Providers';
 import ProvidersAvailability from '../pages/ProvidersAvailability';
-import Profile from '../pages/Profile';
-import Appointments from '../pages/Appointments';
+import ResetPassword from '../pages/ResetPassword';
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
+import Route from './Route';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={SignIn} />
+    <Route path="/" exact component={Home} />
+    <Route path="/signin" exact component={SignIn} />
     <Route path="/signup" component={SignUp} />
     <Route path="/forgot-password" component={ForgotPassword} />
     <Route path="/reset-password" component={ResetPassword} />
