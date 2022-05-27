@@ -204,6 +204,12 @@ export const Appointment = styled.div`
       color: #fff;
       font-size: 20px;
     }
+
+    #trash {
+      margin-left: auto;
+      color: #fff;
+      cursor: pointer;
+    }
   }
 `;
 

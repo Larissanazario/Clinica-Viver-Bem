@@ -42,7 +42,6 @@ export default class AppointmentsController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const user_id = request.user.id;
     const { appointment_id } = request.body;
 
     const deleteAppointmentService = container.resolve(
@@ -51,7 +50,6 @@ export default class AppointmentsController {
 
     const appointmentDeleted = await deleteAppointmentService.execute({
       appointment_id,
-      user_id,
     });
 
     return response.json(appointmentDeleted);

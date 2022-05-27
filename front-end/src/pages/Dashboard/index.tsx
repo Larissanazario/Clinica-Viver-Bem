@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { FiPower, FiClock } from 'react-icons/fi';
+import { FiPower, FiClock, FiTrash2 } from 'react-icons/fi';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 // eslint-disable-next-line import/no-duplicates
 import { format, isToday, parseISO, isAfter, isTomorrow } from 'date-fns';
@@ -24,6 +24,7 @@ import logoImg from '../../assets/logo2.png';
 import avatarImg from '../../assets/avatar-clynic.png';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
+import { useToast } from '../../hooks/toast';
 
 interface MonthAvailability {
   day: number;
@@ -41,6 +42,7 @@ interface Appointment {
 }
 const Dashboard: React.FC = () => {
   const { user, signOut } = useAuth();
+  const { addToast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -49,6 +51,32 @@ const Dashboard: React.FC = () => {
   >([]);
 
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+
+  async function handleDeleteAppointment(
+    appointment_id: string,
+  ): Promise<void> {
+    try {
+      const appointmentDeleted = await api.delete('/appointments', {
+        data: { appointment_id },
+      });
+
+      if (appointmentDeleted) {
+        addToast({
+          type: 'success',
+          title: 'Agendamento deletado com sucesso!',
+        });
+        setAppointments(prevState =>
+          prevState.filter(appointment => appointment.id !== appointment_id),
+        );
+      }
+    } catch (error) {
+      addToast({
+        type: 'success',
+        title: 'Ops, algo deu errado :(',
+        description: (error as Error).message,
+      });
+    }
+  }
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disable) {
@@ -209,8 +237,13 @@ const Dashboard: React.FC = () => {
                     src={appointment.user.avatar_url || avatarImg}
                     alt={appointment.user.name}
                   />
-
                   <strong>{appointment.user.name}</strong>
+
+                  <FiTrash2
+                    id="trash"
+                    className="delete-icon"
+                    onClick={() => handleDeleteAppointment(appointment.id)}
+                  />
                 </div>
               </Appointment>
             ))}
@@ -236,6 +269,11 @@ const Dashboard: React.FC = () => {
                   />
 
                   <strong>{appointment.user.name}</strong>
+                  <FiTrash2
+                    id="trash"
+                    className="delete-icon"
+                    onClick={() => handleDeleteAppointment(appointment.id)}
+                  />
                 </div>
               </Appointment>
             ))}

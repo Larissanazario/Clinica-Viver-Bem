@@ -49,7 +49,7 @@ const SignUp: React.FC = () => {
           description: 'Você já pode fazer seu logon no Viver Bem!',
         });
 
-        history.push('/');
+        history.push('/signin');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
