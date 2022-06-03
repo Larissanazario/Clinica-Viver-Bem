@@ -43,7 +43,7 @@ class SendForgotPasswordEmailService {
         name: user.name,
         email: user.email,
       },
-      subject: '[Clynic] Recuperação de senha',
+      subject: '[viverbem] Recuperação de senha',
       templateData: {
         file: forgotPasswordTemplate,
         variables: {
